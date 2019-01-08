@@ -17,14 +17,14 @@ $ ./eosio_build.sh
 
 # BOS Testnet 中继全节点
 $ git clone https://github.com/boscore/bos 
-$ cd eos && git checkout feature/ibc-plugin # 为了结合bos其他功能一起测试，需要把此分支rebase到某个bos的release分支
+$ cd eos && git checkout feature/ibc-plugin-test   # 为了结合bos其他功能一起测试，此分支已经合并了master分支的内容
 # 注释掉 plugins/ibc_plugin/ibc_plugin.cpp 文件中约第39行的 #define PLUGIN_TEST
 $ ./eosio_build.sh
 ```
 
 合约编译
 ``` bash
-$ git clone https://github.com/vonhenry/eosio.contracts
+$ git clone https://github.com/bos/bos.contracts
 $ cd eosio.contracts && git checkout feature/ibc
 $ ./build.sh
 ```
