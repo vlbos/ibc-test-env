@@ -3,7 +3,7 @@
 . init.sh
 
 setup_system_contracts_and_issue_token(){
-    cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
+    cleos=cleos1 sym=EOS && if [ "$1" == "c2" ];then cleos=cleos2 sym=BOS ;fi
 
     # step 1: set contract eosio.bios
     ${!cleos} set contract eosio ${CONTRACTS_DIR}/eosio.bios -p eosio
@@ -27,8 +27,8 @@ setup_system_contracts_and_issue_token(){
 
     # step 4: create and issue token
     echo step 4
-    ${!cleos} push action eosio.token create '["eosio", "10000000000.0000 EOS"]' -p eosio.token
-    ${!cleos} push action eosio.token issue '["eosio",  "1000000000.0000 EOS", "memo"]' -p eosio
+    ${!cleos} push action eosio.token create '["eosio", "10000000000.0000 '$sym'"]' -p eosio.token
+    ${!cleos} push action eosio.token issue '["eosio",  "1000000000.0000 '$sym'", "memo"]' -p eosio
 
     #setp 5: setting privileged account for eosio.msig
     ${!cleos} push action eosio setpriv '{"account": "eosio.msig", "is_priv": 1}' -p eosio
@@ -36,43 +36,45 @@ setup_system_contracts_and_issue_token(){
     # step 6: set contract eosio.system
     sleep .5
     ${!cleos} set contract eosio ${CONTRACTS_DIR}/eosio.system -x 1000 -p eosio
-    ${!cleos} push action eosio init '[0, "4,EOS"]' -p eosio
+    ${!cleos} push action eosio init '[0, "4,'$sym'"]' -p eosio
 
 }
 setup_system_contracts_and_issue_token c1
 setup_system_contracts_and_issue_token c2
 
+
+
 sleep .2
 create_firstaccount(){
-    cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
+    cleos=cleos1 sym=EOS && if [ "$1" == "c2" ];then cleos=cleos2 sym=BOS ;fi
     echo "create first user account."
     new_keys
     ${!cleos} system newaccount \
-         --stake-net "10000.0000 EOS" --stake-cpu "10000.0000 EOS" --buy-ram "10000.0000 EOS" \
+         --stake-net "10000.0000 "$sym --stake-cpu "10000.0000 "$sym --buy-ram "10000.0000 "$sym \
          eosio firstaccount $pub_key $pub_key -p eosio --transfer
-    ${!cleos} transfer eosio firstaccount "1000000.0000 EOS"
+    ${!cleos} transfer eosio firstaccount "1000000.0000 "$sym
     import_key $pri_key
 }
 create_firstaccount c1
 create_firstaccount c2
 
 create_one(){
-    cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
+     cleos=cleos1 sym=EOS && if [ "$1" == "c2" ];then cleos=cleos2 sym=BOS ;fi
     name=$2
     new_keys
     ${!cleos} system newaccount \
-        --stake-net "1000.0000 EOS" --stake-cpu "1000.0000 EOS" --buy-ram "1000.0000 EOS" \
+        --stake-net "1000.0000 "$sym --stake-cpu "1000.0000 "$sym --buy-ram "1000.0000 "$sym \
         firstaccount $name $pub_key $pub_key -p firstaccount
-    ${!cleos} transfer firstaccount $name "100.0000 EOS"
+    ${!cleos} transfer firstaccount $name "100.0000 "$sym
     import_key $pri_key
 }
 
 create_account_by_pub_key(){
-    cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
+     cleos=cleos1 sym=EOS && if [ "$1" == "c2" ];then cleos=cleos2 sym=BOS ;fi
     name=$2
     pub_key=$3
     ${!cleos} system newaccount \
-        --stake-net "1000.0000 EOS" --stake-cpu "1000.0000 EOS" --buy-ram "1000.0000 EOS" \
+        --stake-net "1000.0000 "$sym --stake-cpu "1000.0000 "$sym --buy-ram "1000.0000 "$sym \
         firstaccount $name $pub_key $pub_key -p firstaccount
-    ${!cleos} transfer firstaccount $name "100.0000 EOS"
+    ${!cleos} transfer firstaccount $name "100.0000 "$sym
 }
