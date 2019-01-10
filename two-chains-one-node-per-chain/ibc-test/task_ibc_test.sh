@@ -17,7 +17,7 @@ set_contracts c2
 init_contracts(){
     cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
 
-    ${!cleos} set account permission ${contract_token} active '{"threshold": 1, "keys":[{"key":"'${pub_key}'", "weight":1}], "accounts":[{"permission":{"actor":"'${contract_token}'","permission":"eosio.code"},"weight":1}], "waits":[] }' owner -p ${contract_token}
+    ${!cleos} set account permission ${contract_token} active '{"threshold": 1, "keys":[{"key":"'${token_c_pubkey}'", "weight":1}], "accounts":[{"permission":{"actor":"'${contract_token}'","permission":"eosio.code"},"weight":1}], "waits":[] }' owner -p ${contract_token}
 
     # --- ibc.chain ---
     ${!cleos}  push action  ${contract_chain} setglobal '[{"lib_depth":170}]' -p ${contract_chain}
@@ -37,8 +37,6 @@ init_contracts(){
 #    "ibc2token555","eosio.token","4,EOS",true]' -p ${contract_token}
 
     #cleos get table ${contract_token} ${contract_token} globals
-
-
 
 }
 init_contracts c1
@@ -64,14 +62,6 @@ init_two
 
 
 
-
-
-
-
-
-
-
-
 get_chain_table(){
     echo --- cleos1 ---
     $cleos1 get table ${contract_chain} ${contract_chain} $1
@@ -91,19 +81,89 @@ get_token_table(){
 #    get_chain_table chaindb
 #    get_token_table globals
 #    get_token_table globalm
+#    get_token_table origtrxs
+#    get_token_table cashtrxs
+
+
+get_account(){
+    echo --- cleos1 ---
+    $cleos1 get account  $1
+    echo && echo --- cleos2 ---
+    $cleos2 get account  $1
+}
+get_account ibc2relay555
+get_account ibc2token555
+get_account ibc2chain555
+
+
 
 
 transfer(){
-    $cleos1 transfer firstaccount ibc2token555 "10.0000 EOS" "ibc receiver=chengsong111" -p firstaccount
-    $cleos2 transfer firstaccount ibc2token555 "10.0000 BOS" "ibc receiver=chengsong111" -p firstaccount
+    $cleos1 transfer -f firstaccount ibc2token555 "10.0000 EOS" "ibc receiver=chengsong111" -p firstaccount
+    $cleos2 transfer -f firstaccount ibc2token555 "10.0000 BOS" "ibc receiver=chengsong111" -p firstaccount
 }
+
+withdraw(){
+    $cleos1 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 BOSPG" "ibc receiver=receiverbos1"]' -p chengsong111
+    $cleos2 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 EOSPG" "ibc receiver=receivereos1"]' -p chengsong111
+}
+
+transfer_fail(){
+    $cleos1 transfer -f firstaccount ibc2token555 "10.0000 EOS" "ibc receiver=chengsong123" -p firstaccount
+    $cleos2 transfer -f firstaccount ibc2token555 "10.0000 BOS" "ibc receiver=chengsong123" -p firstaccount
+}
+
+withdraw_fail(){
+    $cleos1 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 BOSPG" "ibc receiver=receiver1111"]' -p chengsong111
+    $cleos2 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 EOSPG" "ibc receiver=receiver1111"]' -p chengsong111
+}
+
+
+once(){
+    for i in `seq 10`; do transfer && sleep .2 ;done
+    for i in `seq 10`; do withdraw && sleep .2 ;done
+    for i in `seq 2`; do transfer_fail && sleep .2 ;done
+    for i in `seq 2`; do transfer_fail && sleep .2 ;done
+}
+
+
+
+
+ for i in `seq 10000`; do transfer && withdraw &&          sleep .5 ;done
+
+
+
+
 
 get_balance(){
-    $cleos1 get table ibc2token555 chengsong111 accounts
-    $cleos2 get table ibc2token555 chengsong111 accounts
+    $cleos1 get table ibc2token555 $1 accounts
+    $cleos2 get table ibc2token555 $1 accounts
 }
-get_balance
+#    get_balance chengsong111
+#    get_balance chengsong111
 
 
-for i in `seq 1000`; do transfer && sleep 5 ;done
+get_receiver_b(){
+    $cleos1 get currency balance eosio.token receivereos1 "EOS"
+    $cleos2 get currency balance eosio.token receiverbos1 "BOS"
+}
+get_receiver_b
+
+pressure(){
+    for i in `seq 10000`; do transfer && sleep .5 ;done
+    for i in `seq 10000`; do withdraw && sleep .5 ;done
+
+     $cleos1 get table ibc2chain555 ibc2chain555 chaindb -L 9000 |less
+
+
+
+
+
+}
+
+huge_pressure(){
+
+    for i in `seq 200`; do withdraw  ; done >/dev/null 2>&1  &
+
+}
 

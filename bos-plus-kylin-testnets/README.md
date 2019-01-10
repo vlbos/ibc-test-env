@@ -45,6 +45,11 @@ cleos2=cleos -u http://47.254.82.241
 contract_chain=ibc2chain555
 contract_token=ibc2token555
 
+把两个链的ibc2token555合约设置eosio.code权限
+$cleos1 set account permission ${contract_token} active '{"threshold": 1, "keys":[{"key":"'${token_c_pubkey}'", "weight":1}], "accounts":[{"permission":{"actor":"'${contract_token}'","permission":"eosio.code"},"weight":1}], "waits":[] }' owner -p ${contract_token}
+$cleos2 set account permission ${contract_token} active '{"threshold": 1, "keys":[{"key":"'${token_c_pubkey}'", "weight":1}], "accounts":[{"permission":{"actor":"'${contract_token}'","permission":"eosio.code"},"weight":1}], "waits":[] }' owner -p ${contract_token}
+
+
 $cleos1 push action ${contract_chain} setglobal '[{"lib_depth":170}]' -p ${contract_chain}
 $cleos1 push action ${contract_chain} relay '["add","ibc2relay555"]' -p ${contract_chain}
 $cleos1 push action ${contract_token} setglobal '["ibc2chain555","ibc2token555",5000,1000,10,true]' -p ${contract_token}
