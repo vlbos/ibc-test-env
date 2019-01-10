@@ -105,6 +105,7 @@ ibc-peer-private-key = EOS65jr3UsJi2Lpe9GbxDUmJYUpWeBTJNrqiDq2hYimQyD2kThfAE=KEY
 
 ### 执行跨链交易
 
+```
 从 kylin 测试网account1账户，转移50个EOS 到 BOS测试网的account2账户
 $cleos1 transfer account1 ibc2token555 "50.0000 EOS" "ibc receiver=account2" -p account1
 
@@ -116,8 +117,7 @@ $cleos2 transfer account1 ibc2token555 "50.0000 BOS" "ibc receiver=account2" -p 
 
 从 Kylin 测试网account2账户，转回15个BOS （实际符号是BOSPG） 到BOS测试网的account3账户
 $cleos1 push action ibc2token555 transfer '["account2","ibc2token555","10.0000 BOSPG" "ibc receiver=account3"]' -p account2
-
-
+```
 
 
 
