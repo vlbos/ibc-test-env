@@ -1,6 +1,9 @@
 #!/bin/bash
 
 . init.sh
+
+#sed 's/"initial_timestamp": ".*/"initial_timestamp": "'$now'",/g' ./config.sh >  ./config_gen.sh
+#. config_gen.sh
 . config.sh
 
 cluster_init(){
@@ -28,13 +31,10 @@ cluster_init(){
 
 pnodes=1
 total_nodes=25
-delay=0
-
-cluster_dump(){
-    $eosio_launcher -p $pnodes -n $total_nodes --nogen -o topology
-}
+delay=1
 
 cluster_start(){
+    echo $now > genesis_time.txt
     $eosio_launcher -i $now -p $pnodes -n $total_nodes --nogen -d $delay
 
     sleep 5
@@ -62,7 +62,7 @@ cluster_start(){
         echo SUCCESS
     fi
 
-    echo "tail -f ./var/lib/node_01/stderr.txt"
+    echo "tail -f ./var/lib/node_00/stderr.txt"
 }
 
 

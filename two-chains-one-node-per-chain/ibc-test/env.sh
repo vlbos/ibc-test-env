@@ -10,8 +10,6 @@ cleos1='cleos -u http://127.0.0.1:8888'
 cleos2='cleos -u http://127.0.0.1:8889'
 
 
-
-
 contract_chain=ibc2chain555
 contract_chain_folder=ibc.chain
 

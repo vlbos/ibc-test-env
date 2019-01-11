@@ -9,8 +9,13 @@ WALLET_DIR=/Users/song/tmp/eosio/eosio-wallet
 cleos1='cleos -u http://127.0.0.1:8888'
 cleos2='cleos -u http://127.0.0.1:8889'
 
-contract_acnt=eos222333ibc
-contract_folder=ibc
+
+contract_chain=ibc2chain555
+contract_chain_folder=ibc.chain
+
+contract_token=ibc2token555
+contract_token_folder=ibc.token
+
 
 
 

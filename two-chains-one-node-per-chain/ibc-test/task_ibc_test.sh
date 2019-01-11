@@ -60,7 +60,7 @@ init_two(){
 }
 init_two
 
-
+return
 
 get_chain_table(){
     echo --- cleos1 ---
@@ -129,7 +129,7 @@ once(){
 
 
 
- for i in `seq 10000`; do transfer && withdraw &&          sleep .5 ;done
+# for i in `seq 10000`; do transfer && withdraw &&          sleep .5 ;done
 
 
 

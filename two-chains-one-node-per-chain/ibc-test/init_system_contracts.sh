@@ -20,12 +20,6 @@ setup_system_contracts_and_issue_token(){
         sleep .2
     done
 
-#    for account in eosio.bpay eosio.msig eosio.names eosio.ram eosio.ramfee eosio.saving eosio.stake eosio.token eosio.vpay \
-#    do
-#      ${!cleos} push action eosio updateauth '{"account": "'$account'", "permission": "active", "parent": "owner", "auth":{"threshold": 1, "keys": [], "waits": [], "accounts": [{"weight": 1, "permission": {"actor": "eosio", "permission": active}}]}}' -p ${account}@active
-#      ${!cleos} push action eosio updateauth '{"account": "'$account'", "permission": "owner", "parent": "",       "auth":{"threshold": 1, "keys": [], "waits": [], "accounts": [{"weight": 1, "permission": {"actor": "eosio", "permission": active}}]}}' -p ${account}@owner
-#    done
-
     # step 3: set contract
     echo step 3
     ${!cleos} set contract eosio.token ${CONTRACTS_DIR}/eosio.token -p eosio.token

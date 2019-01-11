@@ -2,7 +2,7 @@
 
 read -d '' genesis << EOF
 {
-  "initial_timestamp": "2018-12-04T12:00:00.000",
+  "initial_timestamp": "2019-01-01T01:01:01.000",
   "initial_key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
   "initial_configuration": {
     "max_block_net_usage": 1048576,
@@ -38,15 +38,13 @@ p2p-listen-endpoint = 0.0.0.0:9876
 allowed-connection = any
 signature-provider = EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV=KEY:5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 p2p-max-nodes-per-host = 50
-max-clients = 25
+max-clients = 50
 enable-stale-production = true
 producer-name = eosio
 EOF
 
 read -d '' config_common << EOF
 enable-stale-production = true
-ibc-max-nodes-per-host = 50
-ibc-max-clients = 0
 p2p-peer-address = localhost:9876
 plugin = eosio::chain_api_plugin
 plugin = eosio::producer_plugin
@@ -58,15 +56,6 @@ http-server-address = 127.0.0.1:8800
 p2p-listen-endpoint = 0.0.0.0:9800
 producer-name = producer111a
 signature-provider = EOS7p8HMkhKw5Doncn7GMu9yRhGkHqxtXFMEaXCeJTGQ87DxztSdR=KEY:5JiifZVHiyUHtA51RReAh3fDzCQVQPtEku7y3aEUC4u6MUr83fx
-
-plugin = eosio::ibc::ibc_plugin
-ibc-contract = eos222333ibc
-ibc-listen-endpoint = 0.0.0.0:6101
-ibc-peer-address = 127.0.0.1:6201
-ibc-peer-address = 127.0.0.1:6202
-ibc-peer-address = 127.0.0.1:6203
-ibc-sidechain-id = c20076f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
-#ibc-peer-private-key = [EOS67ZiLNxJ4tozUeBsgXrMXRAx3BwEEZ1jmfMoG9tnjkiLAt5a1L,5K9s8mu3yXLfEDJQSVN1fYHPzyNBBvQ3MPgeRvK2jvG4KwjW3yu]
 EOF
 
 read -d '' config01 << EOF
@@ -74,15 +63,6 @@ http-server-address = 127.0.0.1:8801
 p2p-listen-endpoint = 0.0.0.0:9801
 producer-name = producer111b
 signature-provider = EOS7bvJku6JZdbVxLfg9q7LEmqnyTexMTrYJteUoBCHDbF36Ux44s=KEY:5JYA6oj1HAw1xaT31ZR3m9Vzn7UQNaMdG9LRgNfEewrdVAR2z6C
-
-plugin = eosio::ibc::ibc_plugin
-ibc-contract = eos222333ibc
-ibc-listen-endpoint = 0.0.0.0:6102
-ibc-peer-address = 127.0.0.1:6201
-ibc-peer-address = 127.0.0.1:6202
-ibc-peer-address = 127.0.0.1:6203
-ibc-sidechain-id = c20076f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
-#ibc-peer-private-key = [EOS67ZiLNxJ4tozUeBsgXrMXRAx3BwEEZ1jmfMoG9tnjkiLAt5a1L,5K9s8mu3yXLfEDJQSVN1fYHPzyNBBvQ3MPgeRvK2jvG4KwjW3yu]
 EOF
 
 read -d '' config02 << EOF
@@ -90,15 +70,6 @@ http-server-address = 127.0.0.1:8802
 p2p-listen-endpoint = 0.0.0.0:9802
 producer-name = producer111c
 signature-provider = EOS6dnV9KGX5zLa6EJS3fRFG1sBqvLCr45UkiJxxG3CxVRBRE2Hjd=KEY:5JL4zsc2CwHDkRCqYDCAVx7Ad7JtuhirbbPA61essr5iMyrjtnd
-
-plugin = eosio::ibc::ibc_plugin
-ibc-contract = eos222333ibc
-ibc-listen-endpoint = 0.0.0.0:6103
-ibc-peer-address = 127.0.0.1:6201
-ibc-peer-address = 127.0.0.1:6202
-ibc-peer-address = 127.0.0.1:6203
-ibc-sidechain-id = c20076f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
-#ibc-peer-private-key = [EOS67ZiLNxJ4tozUeBsgXrMXRAx3BwEEZ1jmfMoG9tnjkiLAt5a1L,5K9s8mu3yXLfEDJQSVN1fYHPzyNBBvQ3MPgeRvK2jvG4KwjW3yu]
 EOF
 
 read -d '' config03 << EOF
@@ -470,15 +441,6 @@ read -d '' logging << EOF
   ],
   "loggers": [{
       "name": "default",
-      "level": "debug",
-      "enabled": true,
-      "additivity": false,
-      "appenders": [
-        "stderr"
-      ]
-    },
-    {
-      "name": "ibc_plugin_impl",
       "level": "debug",
       "enabled": true,
       "additivity": false,
