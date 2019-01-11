@@ -2,25 +2,55 @@
 
 . init_system_contracts.sh
 
-create_some_account(){
+receiver=111111111111
+
+create_one c1 ${receiver}
+create_one c2 ${receiver}
+
+contract_chain=ibc2chain555
+contract_chain_folder=ibc.chain
+
+contract_token=ibc2token555
+contract_token_folder=ibc.token
+
+token_c_pubkey=EOS6Sc4BuA7dEGRU6u4VSuEKusESFe61qD8LmguGEMULrghKDSPaU
+token_c_prikey=5K79wAY8rgPwWQSRmyQa2BR8vPicieJdLCXL3cM5Db77QnsJess
+import_key ${token_c_prikey}
+
+
+new_account(){
     cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
-
-    create_one $1 ${contract_acnt}
-    create_one $1 eosvoterbig1
-    ${!cleos} transfer eosio eosvoterbig1 "200000100.0000 EOS"
-    ${!cleos} system delegatebw eosvoterbig1 eosvoterbig1 "100000000.0000 EOS"  "100000000.0000 EOS"
-
-    for i in a b c d e f g h i j; do
-        name=eosvoter111${i}
-        create_one $1 ${name}
-        ${!cleos} transfer eosio ${name} "10000100.0000 EOS"
-        ${!cleos} system delegatebw ${name}  ${name}  "5000000.0000 EOS"  "5000000.0000 EOS"
-    done
+    create_one $1 $2
 }
-create_some_account c1
-create_some_account c2
+new_account c1 ${contract_chain}
+create_account_by_pub_key c1 ${contract_token} ${token_c_pubkey}
 
-. ../cluster-one/bp_keys.sh
+new_account c2 ${contract_chain}
+create_account_by_pub_key c2 ${contract_token} ${token_c_pubkey}
+
+new_account c1 chengsong111
+new_account c2 chengsong111
+
+new_account c1 receivereos1
+new_account c2 receiverbos1
+
+
+create_account_by_pub_key c1 ibc2relay555 EOS5jLHvXsFPvUAawjc6qodxUbkBjWcU1j6GUghsNvsGPRdFV5ZWi
+create_account_by_pub_key c2 ibc2relay555 EOS5jLHvXsFPvUAawjc6qodxUbkBjWcU1j6GUghsNvsGPRdFV5ZWi
+
+
+create_big_voter(){
+    cleos=cleos1 sym=EOS && if [ "$1" == "c2" ];then cleos=cleos2 sym=BOS ;fi
+
+    create_one $1 eosvoterbig1
+    ${!cleos} transfer eosio eosvoterbig1 "200000100.0000 "$sym -p eosio
+    ${!cleos} system delegatebw eosvoterbig1 eosvoterbig1 "100000000.0000 "$sym  "100000000.0000 "$sym -p eosvoterbig1
+}
+create_big_voter c1
+create_big_voter c2
+
+
+. ../bp_keys.sh
 
 create_register_producers(){
     cleos=cleos1 && base=1 && if [ "$1" == "c2" ];then cleos=cleos2 && base=2;fi
@@ -29,12 +59,12 @@ create_register_producers(){
     for i in a b c d e f g h i j k l m n o p q r s t u v w x y z; do
         sfx=${bunch}${i}
         bpname=producer${base}1${sfx} && create_one $1 ${bpname}
-        var=p${sfx}_pri && import_key ${!var}
+        var=p${sfx}_pri && if [ "$3" == "import" ];then import_key ${!var}; fi
         var=p${sfx}_pub && ${!cleos} system regproducer ${bpname} ${!var} http://${bpname}.io
     done
 }
-create_register_producers c1 1
-create_register_producers c1 2
+create_register_producers c1 1 import
+create_register_producers c1 2 import
 create_register_producers c2 1
 create_register_producers c2 2
 
@@ -57,51 +87,58 @@ update_schedule(){
 }
 
 update_schedule c1
-$cleos1 system voteproducer prods eosvoterbig1 ${schedule1}
+$cleos1 system voteproducer prods eosvoterbig1 ${schedule1} -p eosvoterbig1
 
 update_schedule c2
-$cleos2 system voteproducer prods eosvoterbig1 ${schedule1}
+$cleos2 system voteproducer prods eosvoterbig1 ${schedule1} -p eosvoterbig1
 
 
-rotate(){
-    echo $! > logs/pids.txt
-
-    while true; do
-        sleep  $(( $RANDOM % 500 + 300 ))
-        update_schedule c1
-        num=$(( $RANDOM % 4 + 1 ))
-        schedule=schedule${num}
-        $cleos1 system voteproducer prods eosvoterbig1 ${!schedule}
-
-        sleep  $(( $RANDOM % 200 ))
-        update_schedule c2
-        num=$(( $RANDOM % 4 + 1 ))
-        schedule=schedule${num}
-        $cleos2 system voteproducer prods eosvoterbig1 ${!schedule}
-    done
-}
-echo -------- start rotate producer schedules ------------
-rotate > logs/rotate.log &
-
-send_trxs_c1(){
-    echo $! >> logs/pids.txt
-
-    for rr in `seq 1000000`; do
-        for ii in `seq 100 999`;do ${!cleos} transfer firstaccount ${contract_acnt} "0.0${ii} EOS" -p firstaccount && sleep .3 ; done
-    done
-}
-send_trxs_c1 > logs/send_trxs_c1.log 2>&1 &
-
-send_trxs_c2(){
-    echo $! >> logs/pids.txt
-
-    for ss in `seq 1000000`; do
-        for jj in `seq 100 999`;do ${!cleos} transfer firstaccount ${contract_acnt} "0.0${jj} EOS" -p firstaccount && sleep .3 ; done
-    done
-}
-send_trxs_c2 > logs/send_trxs_c2.log 2>&1 &
 
 
+#rotate(){
+#    echo $! > logs/pids.txt
+#
+#    while true; do
+#        sleep  $(( $RANDOM % 500 + 300 ))
+#        update_schedule c1
+#        num=$(( $RANDOM % 4 + 1 ))
+#        schedule=schedule${num}
+#        $cleos1 system voteproducer prods eosvoterbig1 ${!schedule}
+#
+#        sleep  $(( $RANDOM % 200 ))
+#        update_schedule c2
+#        num=$(( $RANDOM % 4 + 1 ))
+#        schedule=schedule${num}
+#        $cleos2 system voteproducer prods eosvoterbig1 ${!schedule}
+#    done
+#}
+#echo -------- start rotate producer schedules ------------
+#rotate > logs/rotate.log &
+#
+#
+
+
+#
+#
+#send_trxs_c1(){
+#    echo $! >> logs/pids.txt
+#
+#    for rr in `seq 1000000`; do
+#        for ii in `seq 100 999`;do ${!cleos} transfer firstaccount ${contract_acnt} "0.0${ii} EOS" -p firstaccount && sleep .3 ; done
+#    done
+#}
+#send_trxs_c1 > logs/send_trxs_c1.log 2>&1 &
+#
+#send_trxs_c2(){
+#    echo $! >> logs/pids.txt
+#
+#    for ss in `seq 1000000`; do
+#        for jj in `seq 100 999`;do ${!cleos} transfer firstaccount ${contract_acnt} "0.0${jj} EOS" -p firstaccount && sleep .3 ; done
+#    done
+#}
+#send_trxs_c2 > logs/send_trxs_c2.log 2>&1 &
+#
+#
 
 
 
