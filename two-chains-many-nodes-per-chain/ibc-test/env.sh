@@ -16,7 +16,8 @@ contract_chain_folder=ibc.chain
 contract_token=ibc2token555
 contract_token_folder=ibc.token
 
-
+token_c_pubkey=EOS6Sc4BuA7dEGRU6u4VSuEKusESFe61qD8LmguGEMULrghKDSPaU
+token_c_prikey=5K79wAY8rgPwWQSRmyQa2BR8vPicieJdLCXL3cM5Db77QnsJess
 
 
 
