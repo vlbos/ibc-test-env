@@ -1,7 +1,11 @@
 #!/bin/bash
 
 . init.sh
-. config.sh
+
+echo $now > genesis_time.txt
+sed 's/"initial_timestamp": ".*/"initial_timestamp": "'$now'",/g' ./config.sh >  ./config_gen.sh
+. config_gen.sh
+#. config.sh
 
 cluster_init(){
     cluster_clear
@@ -30,13 +34,8 @@ pnodes=1
 total_nodes=25
 delay=1
 
-cluster_dump(){
-    $eosio_launcher -p $pnodes -n $total_nodes --nogen -o topology
-}
-
 cluster_start(){
-    echo $now > genesis_time.txt
-    $eosio_launcher -i $now -p $pnodes -n $total_nodes --nogen -d $delay
+    $eosio_launcher -p $pnodes -n $total_nodes --nogen -d $delay #  -i $now
 
     sleep 5
     res=$(grep "reason = duplicate" var/lib/node_*/stderr.txt | wc -l)

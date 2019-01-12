@@ -2,6 +2,7 @@
 
 . init.sh
 
+echo $now > genesis_time.txt
 sed 's/"initial_timestamp": ".*/"initial_timestamp": "'$now'",/g' ./config.sh >  ./config_gen.sh
 . config_gen.sh
 #. config.sh
@@ -34,7 +35,7 @@ total_nodes=25
 delay=1
 
 cluster_start(){
-    echo $now > genesis_time.txt
+
     $eosio_launcher -p $pnodes -n $total_nodes --nogen -d $delay  #-i $now
 
     sleep 5

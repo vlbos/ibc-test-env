@@ -42,6 +42,8 @@ cluster_start(){
         gen="--genesis-json $genesis"
     fi
 
+    echo $gen
+
     nohup ./programs/nodeos/nodeos -d $node1data --config-dir $node1conf  \
         --plugin eosio::chain_api_plugin --plugin eosio::history_api_plugin  \
         --contracts-console  --max-transaction-time 1000 $gen > node1.log &
