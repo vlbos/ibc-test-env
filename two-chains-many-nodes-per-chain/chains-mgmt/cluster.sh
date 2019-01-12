@@ -10,25 +10,17 @@ cluster_init(){
     lName=logging.json
     gName=genesis.json
 
-    # prepare genesis time
-    times1=`cat ../chain-first/genesis_time.txt`
-    times2=`cat ../chain-second/genesis_time.txt`
-
     for i in 1 2; do
         path=staging/etc/eosio/node${i}
         mkdir -p $path
         r=confignode$i && echo "${!r}"  > $path/$cName
         echo "$config_common" >>  $path/$cName
         echo "$logging_v"     > $path/$lName
-        echo "$genesis"     > $path/$gName
-
-        time_n=times$i
-        sed 's/"initial_timestamp": ".*/"initial_timestamp": "'${!time_n}'",/g' $path/$gName >  $path/${gName}_tmp
-        rm $path/$gName
-        mv $path/${gName}_tmp $path/$gName
     done
-}
 
+    cp ../chain-first/staging/etc/eosio/node_00/genesis.json   staging/etc/eosio/node1/genesis.json
+    cp ../chain-second/staging/etc/eosio/node_00/genesis.json  staging/etc/eosio/node2/genesis.json
+}
 
 cluster_start(){
 
@@ -74,6 +66,12 @@ cluster_clear(){
     rm -rf var/lib
 
     cd ./../ibc-test/ && ./clear.sh 2>/dev/null && cd - >/dev/null
+
+    pids=`ps -ef | grep ./programs/nodeos/nodeos | cut -d' ' -f 4 | head -n 2`
+
+    for p in $pids; do
+        kill -2 $p
+    done
 }
 
 

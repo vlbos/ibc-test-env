@@ -4,8 +4,10 @@
 
 set_contracts(){
     cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
+    echo ---- cluster 1 ----
     ${!cleos} set contract ${contract_chain} ${CONTRACTS_DIR}/${contract_chain_folder} -x 1000 -p ${contract_chain}
     sleep .2
+    echo && echo ---- cluster 2 ----
     ${!cleos} set contract ${contract_token} ${CONTRACTS_DIR}/${contract_token_folder} -x 1000 -p ${contract_token}
     sleep .2
 }
@@ -65,6 +67,7 @@ get_token_table(){
 #    get_chain_table sections
 #    get_chain_table prodsches
 #    get_chain_table chaindb
+#    get_chain_table blkrtmkls
 #    get_token_table globals
 #    get_token_table globalm
 #    get_token_table origtrxs
@@ -146,6 +149,16 @@ pressure(){
 
 
 }
+
+
+get_links(){
+     pids=`ps -ef | grep ./programs/nodeos/nodeos | cut -d' ' -f 4 | head -n 2`
+     for p in $pids; do
+        echo --- $p ---
+        lsof -p $p |grep TCP | grep 600
+     done
+}
+get_links
 
 huge_pressure(){
 

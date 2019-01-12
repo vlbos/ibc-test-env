@@ -2,7 +2,7 @@
 
 read -d '' genesis << EOF
 {
-  "initial_timestamp": "2019-01-12T02:04:28.000",
+  "initial_timestamp": "2019-01-12T05:31:56.000",
   "initial_key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
   "initial_configuration": {
     "max_block_net_usage": 1048576,
