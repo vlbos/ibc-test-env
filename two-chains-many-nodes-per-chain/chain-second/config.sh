@@ -48,6 +48,8 @@ enable-stale-production = true
 p2p-peer-address = localhost:9976
 plugin = eosio::chain_api_plugin
 plugin = eosio::producer_plugin
+max-transaction-time = 500
+contracts-console = true
 EOF
 
 

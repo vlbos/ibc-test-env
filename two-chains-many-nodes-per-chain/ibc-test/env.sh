@@ -6,8 +6,8 @@ repo=vonhenry/eosio.contracts
 CONTRACTS_DIR=/Code/github.com/${repo}/build
 WALLET_DIR=/Users/song/tmp/eosio/eosio-wallet
 
-cleos1='cleos -u http://127.0.0.1:8888'
-cleos2='cleos -u http://127.0.0.1:8889'
+cleos1='cleos -u http://127.0.0.1:8800'
+cleos2='cleos -u http://127.0.0.1:8900'
 
 
 contract_chain=ibc2chain555

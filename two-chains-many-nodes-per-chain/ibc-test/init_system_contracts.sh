@@ -17,26 +17,25 @@ setup_system_contracts_and_issue_token(){
     do
         echo -e "\n creating $account \n";
         ${!cleos} create account eosio ${account} EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV -p eosio -x 1000
-        sleep .2
+        sleep .3
     done
 
     # step 3: set contract
     echo step 3
-    ${!cleos} set contract eosio.token ${CONTRACTS_DIR}/eosio.token -p eosio.token
-    ${!cleos} set contract eosio.msig ${CONTRACTS_DIR}/eosio.msig -p eosio.msig
+    ${!cleos} set contract eosio.token ${CONTRACTS_DIR}/eosio.token -p eosio.token      && sleep .5
+    ${!cleos} set contract eosio.msig ${CONTRACTS_DIR}/eosio.msig -p eosio.msig         && sleep .5
 
     # step 4: create and issue token
     echo step 4
-    ${!cleos} push action eosio.token create '["eosio", "10000000000.0000 '$sym'"]' -p eosio.token
-    ${!cleos} push action eosio.token issue '["eosio",  "1000000000.0000 '$sym'", "memo"]' -p eosio
+    ${!cleos} push action eosio.token create '["eosio", "10000000000.0000 '$sym'"]' -p eosio.token      && sleep .5
+    ${!cleos} push action eosio.token issue '["eosio",  "1000000000.0000 '$sym'", "memo"]' -p eosio     && sleep .5
 
     #setp 5: setting privileged account for eosio.msig
-    ${!cleos} push action eosio setpriv '{"account": "eosio.msig", "is_priv": 1}' -p eosio
+    ${!cleos} push action eosio setpriv '{"account": "eosio.msig", "is_priv": 1}' -p eosio              && sleep 1.5
 
     # step 6: set contract eosio.system
-    sleep .5
-    ${!cleos} set contract eosio ${CONTRACTS_DIR}/eosio.system -x 1000 -p eosio
-    ${!cleos} push action eosio init '[0, "4,'$sym'"]' -p eosio
+    ${!cleos} set contract eosio ${CONTRACTS_DIR}/eosio.system -x 1000 -p eosio                         && sleep .5
+    ${!cleos} push action eosio init '[0, "4,'$sym'"]' -p eosio                                         && sleep .5
 
 }
 setup_system_contracts_and_issue_token c1

@@ -77,10 +77,25 @@ update_schedule(){
                ${p}1k ${p}1l ${p}1m ${p}1n ${p}1o ${p}1p ${p}1q ${p}1r ${p}1s ${p}1t"
 }
 
-update_schedule c1
+
+
+update_schedule_v2(){
+    p=producer11
+    if [ "$1" == "c2" ];then p=producer21 ;fi
+
+    schedule1="${p}1a ${p}1b ${p}1c ${p}1d"
+
+    schedule2="${p}1a ${p}1c ${p}1b ${p}1d "
+
+    schedule3="${p}1a ${p}1d ${p}1b ${p}1c "
+
+    schedule4="${p}1a ${p}1d ${p}1c ${p}1b "
+}
+
+update_schedule_v2 c1
 $cleos1 system voteproducer prods eosvoterbig1 ${schedule1} -p eosvoterbig1
 
-update_schedule c2
+update_schedule_v2 c2
 $cleos2 system voteproducer prods eosvoterbig1 ${schedule1} -p eosvoterbig1
 
 

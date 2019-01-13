@@ -6,10 +6,9 @@ set_contracts(){
     cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
     echo ---- cluster 1 ----
     ${!cleos} set contract ${contract_chain} ${CONTRACTS_DIR}/${contract_chain_folder} -x 1000 -p ${contract_chain}
-    sleep .2
+    sleep 1
     echo && echo ---- cluster 2 ----
     ${!cleos} set contract ${contract_token} ${CONTRACTS_DIR}/${contract_token_folder} -x 1000 -p ${contract_token}
-    sleep .2
 }
 set_contracts c1
 set_contracts c2
@@ -20,15 +19,23 @@ init_contracts(){
     ${!cleos} set account permission ${contract_token} active '{"threshold": 1, "keys":[{"key":"'${token_c_pubkey}'", "weight":1}], "accounts":[{"permission":{"actor":"'${contract_token}'","permission":"eosio.code"},"weight":1}], "waits":[] }' owner -p ${contract_token}
 
     # --- ibc.chain ---
-    ${!cleos}  push action  ${contract_chain} setglobal '[{"lib_depth":170}]' -p ${contract_chain}
+    ${!cleos}  push action  ${contract_chain} setglobal '[{"lib_depth":50}]' -p ${contract_chain}
     ${!cleos}  push action  ${contract_chain} relay '["add","ibc2relay555"]' -p ${contract_chain}
     #cleos get table ${contract_chain} ${contract_chain} global
-
-    # --- ibc.token ---
-    ${!cleos} push action ${contract_token} setglobal '["ibc2chain555","ibc2token555",5000,1000,10,true]' -p ${contract_token}
 }
 init_contracts c1
 init_contracts c2
+
+
+
+init_contracts_2(){
+    cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
+    ${!cleos} push action ${contract_token} setglobal '["ibc2chain555","ibc2token555",5000,1000,10,true]' -p ${contract_token}
+}
+
+init_contracts_2  c1
+init_contracts_2  c2
+
 
 init_two(){
     $cleos1 push action ${contract_token} regacpttoken \
@@ -80,9 +87,9 @@ get_account(){
     echo && echo --- cleos2 ---
     $cleos2 get account  $1
 }
-get_account ibc2relay555
-get_account ibc2token555
-get_account ibc2chain555
+#    get_account ibc2relay555
+#    get_account ibc2token555
+#    get_account ibc2chain555
 
 
 
@@ -117,13 +124,6 @@ once(){
 
 
 
-
-# for i in `seq 10000`; do transfer && withdraw &&          sleep .5 ;done
-
-
-
-
-
 get_balance(){
     $cleos1 get table ibc2token555 $1 accounts
     $cleos2 get table ibc2token555 $1 accounts
@@ -136,20 +136,13 @@ get_receiver_b(){
     $cleos1 get currency balance eosio.token receivereos1 "EOS"
     $cleos2 get currency balance eosio.token receiverbos1 "BOS"
 }
-get_receiver_b
+#    get_receiver_b
 
 pressure(){
     for i in `seq 10000`; do transfer && sleep .5 ;done
     for i in `seq 10000`; do withdraw && sleep .5 ;done
-
-     $cleos1 get table ibc2chain555 ibc2chain555 chaindb -L 9000 |less
-
-
-
-
-
+    $cleos1 get table ibc2chain555 ibc2chain555 chaindb -L 9000 |less
 }
-
 
 get_links(){
      pids=`ps -ef | grep ./programs/nodeos/nodeos | cut -d' ' -f 4 | head -n 2`
@@ -158,7 +151,7 @@ get_links(){
         lsof -p $p |grep TCP | grep 600
      done
 }
-get_links
+#    get_links
 
 huge_pressure(){
 

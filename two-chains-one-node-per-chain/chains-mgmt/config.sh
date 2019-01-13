@@ -44,7 +44,7 @@ EOF
 
 
 read -d '' configbios1 << EOF
-p2p-server-address = localhost:9876
+p2p-server-address = localhost:9801
 http-server-address = 127.0.0.1:8888
 p2p-listen-endpoint = 0.0.0.0:9876
 
@@ -60,7 +60,7 @@ EOF
 
 
 read -d '' configbios2 << EOF
-p2p-server-address = localhost:9877
+p2p-server-address = localhost:9901
 http-server-address = 127.0.0.1:8889
 p2p-listen-endpoint = 0.0.0.0:9877
 

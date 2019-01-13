@@ -28,11 +28,13 @@ cluster_init(){
 }
 
 pnodes=1
-total_nodes=25
+total_nodes=0
 delay=1
 
 cluster_start(){
     $eosio_launcher -p $pnodes -n $total_nodes --nogen -d $delay
+
+    return
 
     sleep 5
     res=$(grep "reason = duplicate" var/lib/node_*/stderr.txt | wc -l)
@@ -45,7 +47,7 @@ cluster_start(){
 
     b5idbios=`$cleos -u http://127.0.0.1:8888 get block 5 | grep "^ *\"id\""`
 
-    for i in `seq -w 00 24`; do
+    for i in `seq -w 00 07`; do
         echo -- check node $i --
         sleep .3
         b5id=`$cleos -u http://127.0.0.1:88${i} get block 5 | grep "^ *\"id\""`

@@ -7,6 +7,11 @@ plugin = eosio::history_api_plugin
 p2p-max-nodes-per-host = 50
 max-clients = 25
 
+max-transaction-time = 500
+#read-mode = head    #read-mode = speculative
+
+contracts-console = true
+
 plugin = eosio::ibc::ibc_plugin
 ibc-chain-contract = ibc2chain555
 ibc-token-contract = ibc2token555
@@ -17,10 +22,11 @@ EOF
 
 read -d '' confignode1 << EOF
 http-server-address = 127.0.0.1:18888
-p2p-peer-address = localhost:9801
-p2p-peer-address = localhost:9802
-p2p-peer-address = localhost:9803
-p2p-peer-address = localhost:9804
+p2p-peer-address = localhost:9800
+#p2p-peer-address = localhost:9801
+#p2p-peer-address = localhost:9802
+#p2p-peer-address = localhost:9803
+#p2p-peer-address = localhost:9804
 p2p-listen-endpoint = 0.0.0.0:19770
 
 ibc-listen-endpoint = 0.0.0.0:6001
@@ -33,10 +39,11 @@ EOF
 
 read -d '' confignode2 << EOF
 http-server-address = 127.0.0.1:18889
-p2p-peer-address = localhost:9901
-p2p-peer-address = localhost:9902
-p2p-peer-address = localhost:9903
-p2p-peer-address = localhost:9904
+p2p-peer-address = localhost:9900
+#p2p-peer-address = localhost:9901
+#p2p-peer-address = localhost:9902
+#p2p-peer-address = localhost:9903
+#p2p-peer-address = localhost:9904
 p2p-listen-endpoint = 0.0.0.0:19771
 
 

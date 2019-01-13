@@ -36,9 +36,7 @@ cluster_start(){
 
     echo $gen
 
-    nohup ./programs/nodeos/nodeos -d $node1data --config-dir $node1conf  \
-        --plugin eosio::chain_api_plugin --plugin eosio::history_api_plugin  \
-        --contracts-console  --max-transaction-time 1000 $gen > node1.log &
+    nohup ./programs/nodeos/nodeos -d $node1data --config-dir $node1conf  $gen > node1.log &
 
 
     echo "starting node 2"
@@ -51,9 +49,7 @@ cluster_start(){
         gen="--genesis-json $genesis"
     fi
 
-    nohup ./programs/nodeos/nodeos -d $node2data --config-dir $node2conf  \
-        --plugin eosio::chain_api_plugin --plugin eosio::history_api_plugin  \
-        --contracts-console  --max-transaction-time 1000 $gen > node2.log &
+    nohup ./programs/nodeos/nodeos -d $node2data --config-dir $node2conf  $gen > node2.log &
 
     echo "tail -f node1.log"
 }
