@@ -33,11 +33,9 @@ cluster_start(){
     if [ "$1" == "gen" ];then
         gen="--genesis-json $genesis"
     fi
-
-    echo $gen
-
     nohup ./programs/nodeos/nodeos -d $node1data --config-dir $node1conf  $gen > node1.log &
-
+#   ./programs/nodeos/nodeos -d var/lib/node1/ --config-dir staging/etc/eosio/node1 --genesis-json staging/etc/eosio/node1/genesis.json
+#   ./programs/nodeos/nodeos -d var/lib/node1/ --config-dir staging/etc/eosio/node1
 
     echo "starting node 2"
     node2data=var/lib/node2/
@@ -48,8 +46,9 @@ cluster_start(){
     if [ "$1" == "gen" ];then
         gen="--genesis-json $genesis"
     fi
-
     nohup ./programs/nodeos/nodeos -d $node2data --config-dir $node2conf  $gen > node2.log &
+#   ./programs/nodeos/nodeos -d var/lib/node2/ --config-dir staging/etc/eosio/node2 --genesis-json staging/etc/eosio/node2/genesis.json
+#   ./programs/nodeos/nodeos -d var/lib/node2/ --config-dir staging/etc/eosio/node2
 
     echo "tail -f node1.log"
 }
