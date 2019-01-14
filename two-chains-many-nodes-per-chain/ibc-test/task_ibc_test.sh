@@ -74,11 +74,23 @@ get_token_table(){
 #    get_chain_table sections
 #    get_chain_table prodsches
 #    get_chain_table chaindb
-#    get_chain_table blkrtmkls
+
 #    get_token_table globals
 #    get_token_table globalm
 #    get_token_table origtrxs
 #    get_token_table cashtrxs
+
+
+
+
+get_chain_table_blkrtmkls(){
+    echo --- cleos1 ---
+    $cleos1 get table ${contract_chain} ibc2relay555 blkrtmkls
+    echo && echo --- cleos2 ---
+    $cleos2 get table ${contract_chain} ibc2relay555 blkrtmkls
+}
+
+get_chain_table_blkrtmkls
 
 
 get_account(){
@@ -121,6 +133,13 @@ once(){
     for i in `seq 2`; do transfer_fail && sleep .2 ;done
     for i in `seq 2`; do transfer_fail && sleep .2 ;done
 }
+
+black_acnt_transfer(){
+    $cleos1 transfer -f blacklist111 ibc2token555 "10.0000 EOS" "ibc receiver=chengsong111" -p blacklist111
+}
+
+black_acnt_transfer
+$cleos1 get currency balance eosio.token blacklist111 "EOS"
 
 
 

@@ -8,7 +8,9 @@ repo_dir=${base_dir}/vonhenry/eos
 build=build
 #build=cmake-build-debug
 
-nodeos=${repo_dir}/${build}/programs/nodeos/nodeos
+#nodeos=${repo_dir}/${build}/programs/nodeos/nodeos
+nodeos=/usr/local/bin/nodeos
+
 eosio_launcher=${repo_dir}/${build}/programs/eosio-launcher/eosio-launcher
 cleos=${repo_dir}/${build}/programs/cleos/cleos
 

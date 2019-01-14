@@ -22,6 +22,9 @@ create_account_by_pub_key c2 ${contract_token} ${token_c_pubkey}
 new_account c1 chengsong111
 new_account c2 chengsong111
 
+new_account c1 blacklist111
+new_account c2 blacklist111
+
 new_account c1 receivereos1
 new_account c2 receiverbos1
 
@@ -55,9 +58,9 @@ create_register_producers(){
     done
 }
 create_register_producers c1 1 import
-create_register_producers c1 2 import
+#create_register_producers c1 2 import
 create_register_producers c2 1
-create_register_producers c2 2
+#create_register_producers c2 2
 
 
 update_schedule(){
@@ -78,27 +81,26 @@ update_schedule(){
 }
 
 
-
 update_schedule_v2(){
     p=producer11
     if [ "$1" == "c2" ];then p=producer21 ;fi
 
-    schedule1="${p}1a ${p}1b ${p}1c ${p}1d"
+    schedule1="${p}1a ${p}1b ${p}1c ${p}1d ${p}1e ${p}1f "
 
-    schedule2="${p}1a ${p}1c ${p}1b ${p}1d "
+    schedule2="${p}1g ${p}1b ${p}1c ${p}1d ${p}1e ${p}1f "
 
-    schedule3="${p}1a ${p}1d ${p}1b ${p}1c "
+    schedule3="${p}1a ${p}1g ${p}1c ${p}1d ${p}1e ${p}1f "
 
-    schedule4="${p}1a ${p}1d ${p}1c ${p}1b "
+    schedule4="${p}1a ${p}1b ${p}1g ${p}1d ${p}1e ${p}1f "
 }
 
 update_schedule_v2 c1
-$cleos1 system voteproducer prods eosvoterbig1 ${schedule1} -p eosvoterbig1
+$cleos1 system voteproducer prods eosvoterbig1 ${schedule2} -p eosvoterbig1
 
 update_schedule_v2 c2
-$cleos2 system voteproducer prods eosvoterbig1 ${schedule1} -p eosvoterbig1
+$cleos2 system voteproducer prods eosvoterbig1 ${schedule2} -p eosvoterbig1
 
-
+return
 
 
 #rotate(){

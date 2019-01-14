@@ -21,7 +21,7 @@ EOF
 
 
 read -d '' confignode1 << EOF
-http-server-address = 127.0.0.1:18888
+http-server-address = 127.0.0.1:28888
 p2p-peer-address = localhost:9800
 #p2p-peer-address = localhost:9801
 #p2p-peer-address = localhost:9802
@@ -38,7 +38,7 @@ EOF
 
 
 read -d '' confignode2 << EOF
-http-server-address = 127.0.0.1:18889
+http-server-address = 127.0.0.1:28889
 p2p-peer-address = localhost:9900
 #p2p-peer-address = localhost:9901
 #p2p-peer-address = localhost:9902

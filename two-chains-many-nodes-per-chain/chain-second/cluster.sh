@@ -28,7 +28,7 @@ cluster_init(){
 }
 
 pnodes=1
-total_nodes=0
+total_nodes=7
 delay=1
 
 cluster_start(){

@@ -66,7 +66,7 @@ cluster_clear(){
     pids=`ps -ef | grep ./programs/nodeos/nodeos | cut -d' ' -f 4 | head -n 2`
 
     for p in $pids; do
-        kill -2 $p
+        kill -9 $p
     done
 }
 
