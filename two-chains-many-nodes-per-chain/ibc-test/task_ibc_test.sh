@@ -29,29 +29,29 @@ init_contracts c2
 
 
 init_contracts_2(){
-    cleos=cleos1 && if [ "$1" == "c2" ];then cleos=cleos2 ;fi
-    ${!cleos} push action ${contract_token} setglobal '["ibc2chain555","ibc2token555",5000,1000,10,true]' -p ${contract_token}
+    $cleos1 push action ${contract_token} setglobal '["ibc2chain555","bos","ibc2token555",5000,1000,10,true]' -p ${contract_token}
+    $cleos2 push action ${contract_token} setglobal '["ibc2chain555","eos","ibc2token555",5000,1000,10,true]' -p ${contract_token}
 }
 
-init_contracts_2  c1
-init_contracts_2  c2
+init_contracts_2
+
 
 
 init_two(){
     $cleos1 push action ${contract_token} regacpttoken \
         '["eosio.token","1000000000.0000 EOS","ibc2token555","10.0000 EOS","5000.0000 EOS",
-        "100000.0000 EOS",1000,"eos organization","www.eos.com","fixed","0.1000 EOS",0.01,true,"4,EOSPG"]' -p ${contract_token}
+        "100000.0000 EOS",1000,"eos organization","www.eos.com","fixed","0.1000 EOS",0.01,"fixed","0.1000 EOS",0.01,true,"4,EOSPG"]' -p ${contract_token}
     $cleos1 push action ${contract_token} regpegtoken \
         '["1000000000.0000 BOSPG","10.0000 BOSPG","5000.0000 BOSPG",
-        "100000.0000 BOSPG",1000,"ibc2token555","eosio.token","4,BOS",true]' -p ${contract_token}
+        "100000.0000 BOSPG",1000,"ibc2token555","eosio.token","4,BOS","fixed","0.1000 BOSPG",0.01,true]' -p ${contract_token}
 
 
     $cleos2 push action ${contract_token} regacpttoken \
         '["eosio.token","1000000000.0000 BOS","ibc2token555","10.0000 BOS","5000.0000 BOS",
-        "100000.0000 BOS",1000,"bos organization","www.bos.com","fixed","0.1000 BOS",0.01,true,"4,BOSPG"]' -p ${contract_token}
+        "100000.0000 BOS",1000,"bos organization","www.bos.com","fixed","0.1000 BOS",0.01,"fixed","0.1000 BOS",0.01,true,"4,BOSPG"]' -p ${contract_token}
     $cleos2 push action ${contract_token} regpegtoken \
         '["1000000000.0000 EOSPG","10.0000 EOSPG","5000.0000 EOSPG",
-        "100000.0000 EOSPG",1000,"ibc2token555","eosio.token","4,EOS",true]' -p ${contract_token}
+        "100000.0000 EOSPG",1000,"ibc2token555","eosio.token","4,EOS","fixed","0.1000 EOSPG",0.01,true]' -p ${contract_token}
 }
 init_two
 
@@ -80,7 +80,8 @@ get_token_table(){
 #    get_token_table origtrxs
 #    get_token_table cashtrxs
 
-
+#    get_token_table accepts
+#    get_token_table stats
 
 
 get_chain_table_blkrtmkls(){
@@ -107,23 +108,23 @@ get_account(){
 
 
 transfer(){
-    $cleos1 transfer -f firstaccount ibc2token555 "10.0000 EOS" "ibc receiver=chengsong111" -p firstaccount
-    $cleos2 transfer -f firstaccount ibc2token555 "10.0000 BOS" "ibc receiver=chengsong111" -p firstaccount
+    $cleos1 transfer -f firstaccount ibc2token555 "10.0000 EOS" "chengsong111@bos notes infomation" -p firstaccount
+    $cleos2 transfer -f firstaccount ibc2token555 "10.0000 BOS" "chengsong111@eos notes infomation" -p firstaccount
 }
 
 withdraw(){
-    $cleos1 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 BOSPG" "ibc receiver=receiverbos1"]' -p chengsong111
-    $cleos2 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 EOSPG" "ibc receiver=receivereos1"]' -p chengsong111
+    $cleos1 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 BOSPG" "receiverbos1@bos notes infomation"]' -p chengsong111
+    $cleos2 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 EOSPG" "receivereos1@eos notes infomation"]' -p chengsong111
 }
 
 transfer_fail(){
-    $cleos1 transfer -f firstaccount ibc2token555 "10.0000 EOS" "ibc receiver=chengsong123" -p firstaccount
-    $cleos2 transfer -f firstaccount ibc2token555 "10.0000 BOS" "ibc receiver=chengsong123" -p firstaccount
+    $cleos1 transfer -f firstaccount ibc2token555 "10.0000 EOS" "chengsong123@bos" -p firstaccount
+    $cleos2 transfer -f firstaccount ibc2token555 "10.0000 BOS" "chengsong123@eos" -p firstaccount
 }
 
 withdraw_fail(){
-    $cleos1 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 BOSPG" "ibc receiver=receiver1111"]' -p chengsong111
-    $cleos2 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 EOSPG" "ibc receiver=receiver1111"]' -p chengsong111
+    $cleos1 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 BOSPG" "receiver1111@bos"]' -p chengsong111
+    $cleos2 push action -f ibc2token555 transfer '["chengsong111","ibc2token555","10.0000 EOSPG" "receiver1111@eos"]' -p chengsong111
 }
 
 

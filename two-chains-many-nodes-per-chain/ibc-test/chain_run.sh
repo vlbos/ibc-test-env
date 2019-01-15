@@ -95,10 +95,10 @@ update_schedule_v2(){
 }
 
 update_schedule_v2 c1
-$cleos1 system voteproducer prods eosvoterbig1 ${schedule2} -p eosvoterbig1
+$cleos1 system voteproducer prods eosvoterbig1 ${schedule1} -p eosvoterbig1
 
 update_schedule_v2 c2
-$cleos2 system voteproducer prods eosvoterbig1 ${schedule2} -p eosvoterbig1
+$cleos2 system voteproducer prods eosvoterbig1 ${schedule1} -p eosvoterbig1
 
 return
 
