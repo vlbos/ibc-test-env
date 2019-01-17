@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-base_dir=/Code/github.com
+base_dir=/Users/lisheng
 
-nodeos_repo_dir=${base_dir}/vonhenry/eos
+nodeos_repo_dir=${base_dir}/abos/bos
 #nodeos_repo_dir=${base_dir}/boscore/bos
 
 build=build

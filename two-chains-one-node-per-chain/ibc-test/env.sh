@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-contract_repo_dir=vonhenry/eosio.contracts
+contract_repo_dir=ibc/eosio.contracts
 #contract_repo_dir=boscore/bos.contracts
 
-CONTRACTS_DIR=/Code/github.com/${contract_repo_dir}/build
-WALLET_DIR=/Users/song/tmp/eosio/eosio-wallet
+CONTRACTS_DIR=/Users/lisheng/abos/${contract_repo_dir}/build
+WALLET_DIR=/Users/lisheng/eosio-wallet
 
 cleos1='cleos -u http://127.0.0.1:8888'
 cleos2='cleos -u http://127.0.0.1:8889'
