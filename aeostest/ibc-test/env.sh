@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-contract_repo_dir=ibc/eosio.contracts
-#contract_repo_dir=boscore/bos.contracts
+# contract_repo_dir=ibc/eosio.contracts
+contract_repo_dir=bos.contract-prebuild
 
-CONTRACTS_DIR=/Users/lisheng/abos/${contract_repo_dir}/build
-WALLET_DIR=/Users/lisheng/eosio-wallet
+CONTRACTS_DIR=/root/bostest-zsq/${contract_repo_dir}/
+WALLET_DIR=/root/eosio-wallet
 
-cleos1='cleos -u http://127.0.0.1:8888'
-cleos2='cleos -u http://127.0.0.1:8889'
+cleos1='cleos -u http://127.0.0.1:5888'
+cleos2='cleos -u http://127.0.0.1:5889'
 
 
-contract_chain=ibc2chain555
+contract_chain=eosio
 contract_chain_folder=ibc.chain
 
-contract_token=ibc2token555
+contract_token=eosio
 contract_token_folder=ibc.token
 
 
