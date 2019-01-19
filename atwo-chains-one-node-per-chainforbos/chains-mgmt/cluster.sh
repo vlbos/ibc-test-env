@@ -10,7 +10,7 @@ cluster_init(){
     lName=logging.json
     gName=genesis.json
 
-    for i in 1; do
+    for i in 1 2; do
         path=staging/etc/eosio/node_bios${i}
         mkdir -p $path
         r=configbios$i && echo "${!r}"  > $path/$cName

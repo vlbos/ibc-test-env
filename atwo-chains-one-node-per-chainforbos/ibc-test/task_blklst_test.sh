@@ -43,7 +43,7 @@
 # init_contracts c2
 
 init_two(){
-    $cleos1 push action eosio namelist '{"list":"actor_blacklist","action":"insert","names":[ibc2chain555]}' -p eosio
+    $cleos2 push action eosio namelist '{"list":"actor_blacklist","action":"insert","names":[ibc2chain555]}' -p eosio
 
 
 
@@ -77,23 +77,23 @@ get_token_table(){
 
 
 get_balance(){
-    $cleos1 get table eosio $1 account
+    $cleos2 get table eosio $1 account
     # $cleos2 get table ibc2token555 $1 accounts
 }
 get_balance ibc2chain555
 #    get_balance chengsong111
 
 get_receiver_b(){
-    $cleos1 get currency balance eosio.token ibc2chain555 "EOS"
-    # $cleos2 get currency balance eosio.token receiverbos1 "BOS"
+    # $cleos2 get currency balance eosio.token ibc2chain555 "EOS"
+    $cleos2 get currency balance eosio.token ibc2chain555 "BOS"
 }
 get_receiver_b
 
 get_account(){
-    echo --- cleos1 ---
-    $cleos1 get account  $1
-    # echo && echo --- cleos2 ---
-    # $cleos2 get account  $1
+    # echo --- cleos1 ---
+    # $cleos1 get account  $1
+    echo && echo --- cleos2 ---
+    $cleos2 get account  $1
 }
 get_account ibc2chain555
 # get_account ibc2token555
@@ -104,8 +104,8 @@ get_account ibc2chain555
 
 transfer(){
     echo --- cleos1 transfer ---
-    $cleos1 transfer  ibc2chain555 ibc2token555 "10.0000 EOS"  -p ibc2chain555
-    # $cleos2 transfer -f firstaccount ibc2token555 "10.0000 BOS" "ibc receiver=chengsong111" -p firstaccount
+    # $cleos2 transfer  ibc2chain555 ibc2token555 "10.0000 EOS"  -p ibc2chain555
+    $cleos2 transfer  ibc2chain555 ibc2token555 "10.0000 BOS" "ibc receiver=chengsong111" -p ibc2chain555
 }
 
 transfer
