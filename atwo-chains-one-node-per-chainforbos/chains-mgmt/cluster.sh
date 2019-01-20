@@ -35,15 +35,15 @@ cluster_start(){
 #    return
 
 #    sleep 1.2
-    # echo "starting node 2"
-    # node2data=var/lib/node_bios2/
-    # node2conf=staging/etc/eosio/node_bios2
-    # nohup ./programs/nodeos/nodeos -e -p eosio -d $node2data --config-dir $node2conf  \
-    #     --plugin eosio::chain_api_plugin --plugin eosio::producer_plugin  \
-    #     --plugin eosio::producer_api_plugin --plugin eosio::history_api_plugin  \
-    #     --contracts-console  --max-transaction-time 1000 --genesis-timestamp $now > node2.log &
+    echo "starting node 2"
+    node2data=var/lib/node_bios2/
+    node2conf=staging/etc/eosio/node_bios2
+    nohup ./programs/nodeos/nodeos -e -p eosio -d $node2data --config-dir $node2conf  \
+        --plugin eosio::chain_api_plugin --plugin eosio::producer_plugin  \
+        --plugin eosio::producer_api_plugin --plugin eosio::history_api_plugin  \
+        --contracts-console  --max-transaction-time 1000 --genesis-timestamp $now > node2.log &
 
-    # echo "tail -f node1.log"
+    echo "tail -f node2.log"
 #    tail -f node1.log
 }
 

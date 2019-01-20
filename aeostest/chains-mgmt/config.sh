@@ -36,6 +36,7 @@ plugin = eosio::history_api_plugin
 # plugin = eosio::ibc::ibc_plugin
 p2p-max-nodes-per-host = 50
 max-clients = 25
+actor-blacklist = testblklist3
 # ibc-chain-contract = ibc2chain555
 # ibc-token-contract = ibc2token555
 # ibc-relay-name = ibc2relay555

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 # contract_repo_dir=ibc/eosio.contracts  /Users/lisheng/abos/bos.contract-prebuild
-contract_repo_dir=bos.contract-prebuild
-# contract_repo_dir=bos.contracts
+# contract_repo_dir=bos.contract-prebuild
+contract_repo_dir=bos.contracts
 
-# CONTRACTS_DIR=/Users/lisheng/abos/${contract_repo_dir}/build
-CONTRACTS_DIR=/Users/lisheng/abos/${contract_repo_dir}
+CONTRACTS_DIR=/Users/lisheng/abos/${contract_repo_dir}/build
+# CONTRACTS_DIR=/Users/lisheng/abos/${contract_repo_dir}
 WALLET_DIR=/Users/lisheng/eosio-wallet
 
 cleos1='cleos -u http://127.0.0.1:8888'

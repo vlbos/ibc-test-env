@@ -40,7 +40,7 @@ setup_system_contracts_and_issue_token(){
 
 }
 setup_system_contracts_and_issue_token c1
-# setup_system_contracts_and_issue_token c2
+setup_system_contracts_and_issue_token c2
 
 
 
@@ -56,7 +56,7 @@ create_firstaccount(){
     import_key $pri_key
 }
 create_firstaccount c1
-# create_firstaccount c2
+create_firstaccount c2
 
 create_one(){
      cleos=cleos1 sym=EOS && if [ "$1" == "c2" ];then cleos=cleos2 sym=BOS ;fi
