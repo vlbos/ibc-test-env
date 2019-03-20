@@ -4,7 +4,7 @@
 # contract_repo_dir=bos.contract-prebuild
 contract_repo_dir=bos.contracts
 
-CONTRACTS_DIR=/Users/lisheng/abos/${contract_repo_dir}/build/contracts
+CONTRACTS_DIR=/Users/lisheng/amybos/${contract_repo_dir}/build
 # CONTRACTS_DIR=/Users/lisheng/abos/${contract_repo_dir}
 WALLET_DIR=/Users/lisheng/eosio-wallet
 
